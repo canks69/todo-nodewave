@@ -110,7 +110,7 @@ export function FormRegister() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(handleSubmit)}
-        className="bg-white rounded-2xl shadow-lg p-8 w-full max-w-1/3 space-y-8"
+        className="bg-white rounded-2xl shadow-lg p-8 w-full max-w-full md:max-w-1/3 space-y-8"
         >
         <div className="flex flex-row gap-4">
           <FormField
