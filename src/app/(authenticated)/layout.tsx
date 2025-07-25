@@ -7,12 +7,21 @@ import {HeaderWithoutSidebar} from "@/components/layouts/header-without-sidebar"
 import { LogoutDialog } from "@/components/logout";
 import { cn } from "@/lib/utils";
 import { useAuthHydration } from "@/hooks/use-auth-hydration";
+import { AuthGuard } from "@/components/auth-guard";
 
 export default function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  return (
+    <AuthGuard>
+      <LayoutContent>{children}</LayoutContent>
+    </AuthGuard>
+  );
+}
+
+function LayoutContent({ children }: { children: React.ReactNode }) {
   const { user } = useAuthHydration();
 
   const showSidebar = user?.role === "ADMIN";

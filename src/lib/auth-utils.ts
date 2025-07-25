@@ -1,13 +1,16 @@
 import { useAuthStore } from "@/store/auth-store";
 
 export const handleUnauthorized = () => {
-  // Clear auth state
-  useAuthStore.getState().clearAuth();
+  // Clear auth state immediately
+  const clearAuth = useAuthStore.getState().clearAuth;
+  clearAuth();
   
-  // Redirect to sign-in page
+  // Force immediate redirect without any delay
   if (typeof window !== 'undefined') {
-    // Use replace to prevent going back to the previous page
-    window.location.replace('/sign-in');
+    // Stop any ongoing operations first
+    window.stop?.();
+    // Use location.href for immediate redirect
+    window.location.href = '/sign-in';
   }
 };
 

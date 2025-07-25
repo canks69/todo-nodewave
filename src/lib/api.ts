@@ -2,6 +2,8 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { handleUnauthorized } from "./auth-utils";
 
+let isRedirecting = false; // Flag to prevent multiple redirects
+
 const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL || "/api",
   headers: {
@@ -24,8 +26,12 @@ api.interceptors.response.use((response) => {
 }, (error) => {
   const { response } = error
   if (response?.status === 401) {
-    console.error("Unauthorized request, clearing auth and redirecting to login")
-    handleUnauthorized();
+    // Prevent multiple simultaneous redirects
+    if (!isRedirecting) {
+      isRedirecting = true;
+      console.error("Unauthorized request, clearing auth and redirecting to login")
+      handleUnauthorized();
+    }
   }
   return Promise.reject(error)
 })
